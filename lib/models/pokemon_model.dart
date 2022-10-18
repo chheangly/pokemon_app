@@ -1,7 +1,3 @@
-// To parse this JSON data, do
-//
-//     final pokemonModel = pokemonModelFromJson(jsonString);
-
 import 'dart:convert';
 
 List<PokemonModel> pokemonModelFromJson(String str) => List<PokemonModel>.from(json.decode(str).map((x) => PokemonModel.fromJson(x)));
