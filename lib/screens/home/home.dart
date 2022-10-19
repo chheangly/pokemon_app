@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pokemon_app/bloc/pokemon_bloc/pokemon_bloc.dart';
 import 'package:pokemon_app/bloc/pokemon_bloc/pokemon_event.dart';
 import 'package:pokemon_app/bloc/pokemon_bloc/pokemon_state.dart';
+import 'package:pokemon_app/components/pokemon_tile.dart';
+import 'package:pokemon_app/models/pokemon_model.dart';
 import 'package:pokemon_app/repositories/pokemon_repository.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -26,7 +28,25 @@ class HomeScreen extends StatelessWidget {
               );
             }
             if (state is PokemonLoadedState) {
-              return Container();
+              List<PokemonModel> list = state.pokemonList;
+              return Column(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(10),
+                    child: const TextField(),
+                  ),
+                  Expanded(
+                    child: ListView.builder(
+                      itemCount: list.length,
+                      itemBuilder: ((context, index) {
+                        return PokemonTile(
+                          pokemonModel: list[index],
+                        );
+                      }),
+                    ),
+                  )
+                ],
+              );
             }
             if (state is PokemonErrorState) {
               return Center(
