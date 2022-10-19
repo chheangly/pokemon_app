@@ -8,8 +8,42 @@ class PokemonDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double imageSize = 150;
+
     return Scaffold(
-      body: Container(),
+      body: Column(
+        children: [
+          const SizedBox(height: 50),
+          Stack(
+            children: [
+              Center(
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10),
+                    boxShadow: const [
+                      BoxShadow(
+                        color: Color.fromRGBO(0, 0, 0, 0.1),
+                        spreadRadius: 5,
+                        blurRadius: 7,
+                        offset: Offset(0, 3),
+                      ),
+                    ],
+                  ),
+                  child: Hero(
+                    tag: "pokemon_hero_${pokemon.id}",
+                    child: Image.network(
+                      pokemon.imageurl ?? "",
+                      width: imageSize,
+                      height: imageSize,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }

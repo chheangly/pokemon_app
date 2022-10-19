@@ -3,7 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pokemon_app/bloc/pokemon_bloc/pokemon_bloc.dart';
 import 'package:pokemon_app/bloc/pokemon_bloc/pokemon_event.dart';
 import 'package:pokemon_app/bloc/pokemon_bloc/pokemon_state.dart';
+import 'package:pokemon_app/bloc/theme_bloc/theme_bloc.dart';
+import 'package:pokemon_app/bloc/theme_bloc/theme_event.dart';
 import 'package:pokemon_app/components/pokemon_tile.dart';
+import 'package:pokemon_app/global/themes/app_theme.dart';
 import 'package:pokemon_app/models/pokemon_model.dart';
 import 'package:pokemon_app/repositories/pokemon_repository.dart';
 
@@ -19,6 +22,24 @@ class HomeScreen extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           title: const Text("Pokemon List"),
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(
+                Theme.of(context).brightness == Brightness.dark
+                    ? Icons.light_mode
+                    : Icons.dark_mode,
+              ),
+              onPressed: () {
+                BlocProvider.of<ThemeBloc>(context).add(
+                  ThemeChangedEvent(
+                    Theme.of(context).brightness == Brightness.dark
+                        ? AppTheme.lightTheme
+                        : AppTheme.darkTheme,
+                  ),
+                );
+              },
+            )
+          ],
         ),
         body: BlocBuilder<PokemonBloc, PokemonState>(
           builder: ((context, state) {
@@ -28,7 +49,7 @@ class HomeScreen extends StatelessWidget {
               );
             }
             if (state is PokemonLoadedState) {
-              List<PokemonModel> list = state.pokemonList;
+              List<PokemonModel> pokemons = state.pokemonList.sublist(0, 15);
               return Column(
                 children: [
                   Container(
@@ -36,11 +57,16 @@ class HomeScreen extends StatelessWidget {
                     child: const TextField(),
                   ),
                   Expanded(
-                    child: ListView.builder(
-                      itemCount: list.length,
+                    child: GridView.builder(
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        mainAxisExtent: 180,
+                        crossAxisCount: 3,
+                      ),
+                      itemCount: pokemons.length,
                       itemBuilder: ((context, index) {
                         return PokemonTile(
-                          pokemonModel: list[index],
+                          pokemonModel: pokemons[index],
                         );
                       }),
                     ),

@@ -9,6 +9,11 @@ class PokemonTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double imageSize = 100;
+    int numberOfColumns = 3;
+    int cardHeight = 180;
+    bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
     return GestureDetector(
       onTap: () {
         Navigator.push(
@@ -21,28 +26,66 @@ class PokemonTile extends StatelessWidget {
         );
       },
       child: Container(
-        margin: const EdgeInsets.all(10),
-        padding: const EdgeInsets.all(10),
-        decoration: const BoxDecoration(
-          color: Color.fromRGBO(92, 92, 92, 1),
-          borderRadius: BorderRadius.all(Radius.circular(5)),
-        ),
-        child: Row(
+        margin: const EdgeInsets.all(5),
+        padding: const EdgeInsets.all(5),
+        child: Stack(
+          alignment: AlignmentDirectional.topCenter,
           children: [
-            Image.network(
-              pokemonModel.imageurl ?? "",
-              height: 80,
-              width: 80,
+            Positioned(
+              bottom: 0,
+              child: Container(
+                height: cardHeight - (imageSize / 2) - 20,
+                padding: EdgeInsets.only(
+                  top: (imageSize / 2),
+                ),
+                width:
+                    (MediaQuery.of(context).size.width / numberOfColumns) - 20,
+                decoration: BoxDecoration(
+                  color: isDarkMode
+                      ? const Color.fromRGBO(35, 35, 35, 1)
+                      : const Color.fromRGBO(255, 255, 255, 1),
+                  borderRadius: BorderRadius.circular(10),
+                  boxShadow: [
+                    BoxShadow(
+                      color: isDarkMode
+                          ? const Color.fromRGBO(255, 255, 255, 0.1)
+                          : const Color.fromRGBO(0, 0, 0, 0.1),
+                      spreadRadius: 5,
+                      blurRadius: 7,
+                      offset: const Offset(0, 3),
+                    )
+                  ],
+                ),
+                child: Column(
+                  children: [
+                    Text(
+                      "${pokemonModel.name}",
+                      style: const TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      "${pokemonModel.id}",
+                      style: const TextStyle(
+                        fontSize: 11,
+                        fontWeight: FontWeight.w100,
+                      ),
+                    ),
+                    Text(
+                      pokemonModel.typeofpokemon!.join(', '),
+                    )
+                  ],
+                ),
+              ),
             ),
-            const SizedBox(width: 10),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text("Name : ${pokemonModel.name ?? ''}"),
-                Text("ID : ${pokemonModel.id ?? ''}"),
-                Text("Type : ${pokemonModel.typeofpokemon!.join(', ')}")
-              ],
+            Hero(
+              tag: "pokemon_hero_${pokemonModel.id}",
+              child: Image.network(
+                pokemonModel.imageurl ?? "",
+                height: imageSize,
+                width: imageSize,
+              ),
             ),
           ],
         ),
