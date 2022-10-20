@@ -53,7 +53,7 @@ class PokemonTile extends StatelessWidget {
                       spreadRadius: 5,
                       blurRadius: 7,
                       offset: const Offset(0, 3),
-                    )
+                    ),
                   ],
                 ),
                 child: Column(
@@ -72,15 +72,18 @@ class PokemonTile extends StatelessWidget {
                         fontWeight: FontWeight.w100,
                       ),
                     ),
-                    Text(
-                      pokemonModel.typeofpokemon!.join(', '),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 5, right: 5),
+                      child: Text(
+                        pokemonModel.typeofpokemon!.join(' | '),
+                      ),
                     )
                   ],
                 ),
               ),
             ),
             Hero(
-              tag: "pokemon_hero_${pokemonModel.id}",
+              tag: "pokemon_image_${pokemonModel.id}",
               child: Image.network(
                 pokemonModel.imageurl ?? "",
                 height: imageSize,
