@@ -29,6 +29,22 @@ class PokemonDetails extends StatelessWidget {
                     child: Icon(Icons.arrow_back_ios_new_rounded),
                   ),
                 ),
+                Positioned(
+                  right: 10,
+                  child: SizedBox(
+                    height: 40,
+                    width: 40,
+                    child: IconButton(
+                      iconSize: 30,
+                      padding: EdgeInsets.zero,
+                      onPressed: () {},
+                      icon: const Icon(
+                        Icons.favorite_outline,
+                        color: Colors.red,
+                      ),
+                    ),
+                  ),
+                ),
                 Container(
                   alignment: Alignment.topCenter,
                   child: Hero(
@@ -180,11 +196,11 @@ class PokemonDetails extends StatelessWidget {
                               ),
                               RowTile(
                                 title: "Male Percentage",
-                                description: "${pokemon.malePercentage}",
+                                description: pokemon.malePercentage ?? "",
                               ),
                               RowTile(
                                 title: "Female Percentage",
-                                description: "${pokemon.femalePercentage}",
+                                description: pokemon.femalePercentage ?? "",
                               ),
                               RowTile(
                                 title: "Egg Groups",

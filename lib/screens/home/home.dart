@@ -49,12 +49,21 @@ class HomeScreen extends StatelessWidget {
               );
             }
             if (state is PokemonLoadedState) {
-              List<PokemonModel> pokemons = state.pokemonList.sublist(0, 15);
+              List<PokemonModel> pokemons = state.pokemonList;
               return Column(
                 children: [
                   Container(
                     padding: const EdgeInsets.all(10),
-                    child: const TextField(),
+                    child: TextField(
+                      decoration: const InputDecoration(
+                        hintText: "Search your favorite pokemon",
+                      ),
+                      onChanged: ((value) {
+                        BlocProvider.of<PokemonBloc>(context).add(
+                          SearchPokemonListEvent(value),
+                        );
+                      }),
+                    ),
                   ),
                   Expanded(
                     child: GridView.builder(

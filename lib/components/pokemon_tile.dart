@@ -56,29 +56,31 @@ class PokemonTile extends StatelessWidget {
                     ),
                   ],
                 ),
-                child: Column(
-                  children: [
-                    Text(
-                      "${pokemonModel.name}",
-                      style: const TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 5, right: 5),
+                  child: Column(
+                    children: [
+                      Text(
+                        "${pokemonModel.name}",
+                        style: const TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
-                    Text(
-                      "${pokemonModel.id}",
-                      style: const TextStyle(
-                        fontSize: 11,
-                        fontWeight: FontWeight.w100,
+                      Text(
+                        "${pokemonModel.id}",
+                        style: const TextStyle(
+                          fontSize: 11,
+                          fontWeight: FontWeight.w100,
+                        ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 5, right: 5),
-                      child: Text(
-                        pokemonModel.typeofpokemon!.join(' | '),
+                      Text(
+                        (pokemonModel.typeofpokemon ?? []).join(' | '),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                       ),
-                    )
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
